@@ -1,39 +1,17 @@
 ---
-title: "Making Miniblog"
-description: "For those that appreciate simplicity."
-date: "Nov 08 2024"
+title: "如果页面很安静，文字就会自己站出来"
+description: "关于极简博客为什么依然有吸引力的一点随手记录。"
+date: "Mar 08 2026"
 ---
 
-## Introduction
+我一直觉得，博客最舒服的状态不是“功能很多”，而是“没有多余的东西”。页面安静一点，读者就更容易把注意力放在句子上。
 
-Hi there! My name is Nicholas Ly, and I'm a fullstack web developer. I started a blog at [nicholasly.com](https://nicholasly.com/), and actively contribute to and build open source projects outside of my day job.
+这类极简模板的好处，不是它多高级，而是它不抢戏。标题、日期、正文、少量导航，基本就够了。剩下的空间留给内容本身，也留给读者自己的节奏。
 
-I've visited my fair share of blogs and have tried a variety of templates. Over time, I've developed some pretty clear preferences and opinions, which I bring to you through [Miniblog](https://miniblog.nicholasly.com/).
+中文内容放进去以后，这种安静会更明显。因为汉字本身密度更高，稍微把排版做克制一些，阅读就会显得很稳定。
 
-Miniblog is written in Astro, a framework which specializes in static content such as blogs. Both aethetically and functionally, it is designed to be extremely minimal. Enough to get the job done for most people, and canvas for others.
+所以主页不一定需要大横幅，不一定需要复杂分栏，也不一定需要一堆“正在构建中”的模块。几段清楚的话，几篇像样的文章，很多时候就够用了。
 
-To be frank, not many people care for your blog. It doesn't need a lot of bells and whistles. Everytime I've ever visited a blog, it was to learn something. I don't think anything should distract from that.
+等内容真的写多了，再考虑归档、标签、搜索、系列文章，也完全来得及。
 
-## Opinionated, but not restrictive.
-
-My favorite blogs are the simple ones. The blogs that have zero distraction, and just have the information I want to read and the data I need. You don't need a lot to accomplish this. With that said, let's go over some of the decisions I've made for this template.
-
-It's true that this template could literally be done with pure HTML, but [Astro](https://astro.build/) is a great framework with so many quality-of-life features built-in that makes building a blog dead simple.
-
-I could have very much stuck with vanilla CSS, but I prefer to use [Tailwind CSS](https://tailwindcss.com/). It's a pleasure to work with, extremely lightweight, and its theming system is fantastic.
-
-You don't need [ESLint](https://eslint.org/) for a small application like a blog. ESLint is a fantastic tool, especially for larger projects with equally large teams, but it simply isn't necessary for a blog in which you're most likely the only developer. Save yourself the headache.
-
-I do have [Prettier](https://prettier.io/), which is arguably just as unnecessary as ESLint if you're the only contributor, but since this template is open source, a code formatter is pretty useful. You may also be writing and sharing code in your blog posts, so Prettier just makes it easier for the majority to read your code.
-
-You don't need analytics. Again, analytic tools like [Umami](https://umami.is/) are fantastic, but aren't really necessary for a simple blog. You probably won't get that many visitors, and what significant value do you get from tracking them?
-
-You don't need a comments system. Out of the already few visitors of your blog, most of them won't care to leave a comment. You also would need to be extremely cautious of spam and abuse.
-
-You don't need a <abbr title="Content Management System">CMS</abbr>, unless you have a crazy amount of posts. And I'm talking like a _crazy_ amount.
-
-Other than that, everything is purposely kept simple on purpose. You don't need a lot of development experience to get started with this template. And if you want to change something, please do.
-
-## Final note
-
-Feel free to disagree with my opinions. It's open source for a reason—do whatever you want with it.
+模板只是一个起点。真正让网站有样子的，还是你反复写下来的那些东西。

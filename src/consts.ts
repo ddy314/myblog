@@ -4,6 +4,6 @@
 export const SITE_URL = "https://ddy314.github.io/myblog/";
 export const SITE_TITLE = "myblog";
 export const SITE_DESCRIPTION =
-  "A personal blog built with the Miniblog Astro template.";
+  "一个用 Astro 搭的极简中文博客，用来放文章、笔记和零散观察。";
 
 export const EMAIL = "hello@example.com";

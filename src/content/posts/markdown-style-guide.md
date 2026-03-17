@@ -1,24 +1,23 @@
 ---
-title: "Markdown Style Guide"
-description: "Here is a sample of some basic Markdown syntax that can be used when writing Markdown content in Astro."
-date: "Nov 07 2024"
+title: "写一点零碎笔记，比空着好"
+description: "一篇模拟日常更新的中文占位文章，用来看列表和正文效果。"
+date: "Mar 05 2026"
 ---
 
-# H1
+今天只是想先放一点文字进来，看页面会不会立刻活起来。
 
-## H2
+事实证明会。只要首页不再是英文默认介绍，文章列表里真的有几篇像样的中文标题，整个博客就会马上从“模板演示”变成“某个人正在使用的网站”。
 
-### H3
+## 随手记几点
 
-#### H4
+1. 中文标题在这个模板里表现还不错，长度中等时比较顺眼。
+2. 文章摘要能帮列表页迅速摆脱空壳感。
+3. 深色模式切换保留着，晚上读起来会更舒服一点。
 
-##### H5
+## 再放一小段引用
 
-###### H6
-
-Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.
-
-Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.
+> 先把内容填进去，再决定哪里需要改。
+> 这是做博客时很有效的一条经验。
 
 ![blog placeholder](/static/blog-placeholder.png)
 
@@ -26,48 +25,16 @@ Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sap
   <source src="/myblog/static/dynamic-island-animation.mp4" type="video/mp4">
 </video>
 
-> Tiam, ad mint andaepu dandae nostion secatur sequo quae.  
-> **Note** that you can use _Markdown syntax_ within a blockquote.
+## 一小段代码
 
-| Italics   | Bold     | Code   |
-| --------- | -------- | ------ |
-| _italics_ | **bold** | `code` |
+```ts
+const mood = "quiet";
 
-```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Example HTML5 Document</title>
-  </head>
-  <body>
-    <p>Test</p>
-  </body>
-</html>
+if (mood === "quiet") {
+  console.log("适合写点东西");
+}
 ```
 
-1. First item
-2. Second item
-3. Third item
+## 收尾
 
-Hello world!
-
-- List item
-- Another item
-  - List item
-  - Another item
-  - And another item
-- And another item
-  - List item
-  - Another item
-  - And another item
-
-<abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.
-
-H<sub>2</sub>O
-
-X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup>
-
-Press <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Delete</kbd> to end the session.
-
-Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
+等你后面要继续填内容时，我也可以顺手把这些占位文章替换成更像“技术博客”或者“生活博客”的版本。

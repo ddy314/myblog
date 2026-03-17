@@ -1,40 +1,17 @@
 ---
-title: "Customizing Miniblog"
-description: "How to customize the Miniblog blog theme."
-date: "Nov 26 2024"
+title: "把房间收拾干净之后，才想开始写字"
+description: "关于为什么很多人总想先搭博客，再认真写第一篇文章。"
+date: "Mar 15 2026"
 ---
 
-## Blog Posts
+很多人开始写博客的时候，第一步不是打开编辑器，而是先挑主题、调字号、换配色、研究评论系统。
 
-All blog posts should be saved as [Markdown](https://www.markdownguide.org/) or [MDX](https://mdxjs.com/) files within the `src/content/posts/` directory, and have valid frontmatter as defined by the `posts` content collection in the `src/content/config.ts` file. Here's an example of what valid frontmatter would look like:
+这件事不奇怪。页面是看得见的，文章还没有成形。和真正动笔相比，调样式的反馈更及时，也更容易让人感觉自己在“推进项目”。
 
-```
----
-title: "Customizing Miniblog"
-description: "How to customize the Miniblog blog theme."
-date: "Nov 26 2024"
-image: "/static/blog-placeholder.png"  
----
-```
+但博客最后能留下来的，还是内容本身。哪怕只有几段短句，只要它们诚实、清楚、可回看，就已经比空着的精美首页更有价值。
 
-> Note that the `image` frontmatter property is optional, and will by default use `/static/blog-placeholder.png`. You may update this by replacing the `/static/blog-placeholder.png` file in the `public/static/` directory with a file of your choice with the same name.
+我现在反而更喜欢先写几篇占位文章，再回头决定站点长什么样。因为一旦页面里真的有文字，布局是否舒服、留白是否够用、标题是否扎眼，都会变得更容易判断。
 
-## Codeblock Syntax Highlighting
+所以这篇文章本身就是一个占位。它的作用不是表达完整观点，而是帮你看见一个中文博客在这个模板里会呈现出什么感觉。
 
-Astro has Markdown codeblock syntax highlighting out of the box by using [Shiki](https://shiki.style/) under the hood. To customize the themes used by Shiki, modify the `markdown.shikiConfig.themes` property of the `astro.config.mjs` file to one of the [themes](https://shiki.style/themes) provided by Shiki.
-
-## OpenGraph Image Support
-
-As mentioned in the [Blog Posts](#blog-posts) section above, a default OpenGraph image is provided for all pages of the site.
-
-To update the site-wide, default OpenGraph image, replace the `/static/blog-placeholder.png` file in the `public/static/` directory with a file of your choice with the same name.
-
-To add a unique OpenGraph image for a specific blog post, add the new image to the `public/static/` directory, and update the `image` frontmatter property for the respective blog post to use the new image.
-
-## View Transitions
-
-View transitions, or page-to-page navigation animations, also come out of the box with Astro. Please review the Astro [View Transitions](https://docs.astro.build/en/guides/view-transitions/) documentation if you would like to modify the animations of the site.
-
-## Colors
-
-Miniblog uses [Tailwind CSS](https://tailwindcss.com/) for its styling, and therefore uses Tailwind's native color variables throughout the site. By default, Miniblog uses `neutral` for the majority of its colors, with the exception of links that use `blue` and codeblocks that utilize syntax highlighting.
+有时候，先把房间收拾干净，不是为了待客，而是为了愿意坐下来。
