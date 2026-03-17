@@ -1,0 +1,50 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { getPostFacets } from "../lib/posts";
+
+const { categories, tags } = await getPostFacets();
+---
+
+<SiteLayout title="关于 | myblog" currentPath="/about" categories={categories} tags={tags}>
+  <section class="page-card prose">
+    <p class="eyebrow">About</p>
+    <h1>关于这个博客</h1>
+    <p>
+      这里放的是长期可读的内容：文章、设计观察、开发笔记，以及一些生活中的低频记录。
+    </p>
+    <p>
+      页面采用三栏结构。左边是导航和身份信息，中间是文章流，右边提供搜索、分类和标签入口。
+    </p>
+    <p>
+      现在已经具备基础博客浏览能力，后续还可以继续接入分页、全文搜索、评论或 RSS。
+    </p>
+  </section>
+</SiteLayout>
+
+<style>
+  .page-card {
+    padding: 2rem;
+    border-radius: 1.75rem;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  }
+
+  .eyebrow {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #c2410c;
+    font-size: 0.8rem;
+  }
+
+  h1 {
+    margin: 0.45rem 0 1rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .prose p {
+    margin: 0 0 1rem;
+    color: #334155;
+    font-size: 1.05rem;
+  }
+</style>

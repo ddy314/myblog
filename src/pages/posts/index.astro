@@ -1,0 +1,54 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPostFacets } from "../../lib/posts";
+
+const { posts, categories, tags } = await getPostFacets();
+---
+
+<SiteLayout title="文章 | myblog" currentPath="/posts" categories={categories} tags={tags}>
+  <section class="hero">
+    <p class="eyebrow">Archive</p>
+    <h1>全部文章</h1>
+    <p>按时间浏览，也可以用右侧搜索、分类和标签继续过滤。</p>
+  </section>
+
+  <section class="feed">
+    {posts.map((post) => (
+      <PostCard post={post} />
+    ))}
+  </section>
+</SiteLayout>
+
+<style>
+  .hero {
+    margin-bottom: 1.25rem;
+    padding: 1.6rem 1.75rem;
+    border-radius: 1.7rem;
+    background: rgba(255, 255, 255, 0.78);
+    box-shadow: 0 22px 44px rgba(15, 23, 42, 0.06);
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: #c2410c;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.75rem;
+  }
+
+  h1 {
+    margin: 0.45rem 0;
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .hero p:last-child {
+    margin: 0;
+    color: #475569;
+  }
+
+  .feed {
+    display: grid;
+    gap: 1rem;
+  }
+</style>

@@ -1,8 +1,166 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import PostCard from "../components/PostCard.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { getPostFacets } from "../lib/posts";
+
+const { posts, categories, tags } = await getPostFacets();
 ---
 
-<Layout title="myblog">
-  <h1>myblog</h1>
-  <p>Built with Astro minimal and deployed on GitHub Pages.</p>
-</Layout>
+<SiteLayout title="myblog" currentPath="/" categories={categories} tags={tags}>
+  <section class="hero-card">
+    <p class="eyebrow">Current Focus</p>
+    <h1>中间是文章流，左右是导航和查询。</h1>
+    <p class="hero-copy">
+      这是一个三栏博客首页。左边放身份信息和入口，中间按信息流展示文章，右边提供搜索、分类和标签。
+    </p>
+  </section>
+
+  <section class="feed-header">
+    <div>
+      <p class="eyebrow">Posts</p>
+      <h2>最新文章</h2>
+    </div>
+    <p id="results-note">共 {posts.length} 篇文章</p>
+  </section>
+
+  <section class="feed" data-post-feed>
+    {posts.map((post) => (
+      <PostCard post={post} />
+    ))}
+  </section>
+
+  <script is:inline>
+    const searchInput = document.querySelector("[data-search-input]");
+    const postCards = [...document.querySelectorAll("[data-post-card]")];
+    const filterButtons = [...document.querySelectorAll("[data-filter-type]")];
+    const resultNote = document.getElementById("results-note");
+
+    let activeCategory = "";
+    let activeTag = "";
+
+    const applyFilters = () => {
+      const query = (searchInput?.value || "").trim().toLowerCase();
+      let visibleCount = 0;
+
+      for (const card of postCards) {
+        const title = card.dataset.title || "";
+        const excerpt = card.dataset.excerpt || "";
+        const category = card.dataset.category || "";
+        const tags = card.dataset.tags || "";
+
+        const matchesQuery =
+          !query ||
+          title.includes(query) ||
+          excerpt.includes(query) ||
+          tags.includes(query);
+        const matchesCategory = !activeCategory || category === activeCategory;
+        const matchesTag = !activeTag || tags.split("|").includes(activeTag.toLowerCase());
+        const visible = matchesQuery && matchesCategory && matchesTag;
+
+        card.style.display = visible ? "" : "none";
+        if (visible) visibleCount += 1;
+      }
+
+      if (resultNote) {
+        resultNote.textContent = `筛选后 ${visibleCount} 篇文章`;
+      }
+    };
+
+    searchInput?.addEventListener("input", applyFilters);
+
+    for (const button of filterButtons) {
+      button.addEventListener("click", () => {
+        const type = button.dataset.filterType;
+        const value = button.dataset.filterValue || "";
+
+        if (type === "category") {
+          activeCategory = activeCategory === value ? "" : value;
+        }
+
+        if (type === "tag") {
+          activeTag = activeTag === value ? "" : value;
+        }
+
+        for (const item of filterButtons) {
+          const sameType = item.dataset.filterType === type;
+          if (sameType) item.classList.remove("selected");
+        }
+
+        const selected =
+          (type === "category" && activeCategory === value) ||
+          (type === "tag" && activeTag === value);
+
+        button.classList.toggle("selected", selected);
+        applyFilters();
+      });
+    }
+  </script>
+</SiteLayout>
+
+<style>
+  .hero-card {
+    padding: 1.8rem;
+    border-radius: 1.8rem;
+    background:
+      radial-gradient(circle at right top, rgba(249, 115, 22, 0.24), transparent 30%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72));
+    box-shadow: 0 24px 50px rgba(15, 23, 42, 0.08);
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: #c2410c;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.75rem;
+  }
+
+  h1 {
+    margin: 0.5rem 0 0.8rem;
+    font-size: clamp(2.2rem, 5vw, 4.2rem);
+    line-height: 0.98;
+    max-width: 12ch;
+  }
+
+  .hero-copy {
+    margin: 0;
+    max-width: 55rem;
+    color: #475569;
+    font-size: 1.08rem;
+  }
+
+  .feed-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 0 1rem;
+  }
+
+  h2 {
+    margin: 0.3rem 0 0;
+    font-size: 2rem;
+  }
+
+  #results-note {
+    margin: 0;
+    color: #64748b;
+  }
+
+  .feed {
+    display: grid;
+    gap: 1rem;
+  }
+
+  :global(.chip.selected) {
+    background: #ea580c;
+    color: #fff7ed;
+  }
+
+  @media (max-width: 860px) {
+    .feed-header {
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+</style>

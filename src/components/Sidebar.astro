@@ -1,0 +1,112 @@
+---
+const { currentPath = "/" } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const navItems = [
+  { href: `${base}`, route: "/", label: "主页" },
+  { href: `${base}about/`, route: "/about", label: "关于" },
+  { href: `${base}posts/`, route: "/posts", label: "文章" },
+  { href: `${base}#explore`, route: null, label: "查询" },
+];
+---
+
+<aside class="sidebar">
+  <div class="identity">
+    <div class="avatar" aria-hidden="true">DD</div>
+    <div>
+      <p class="eyebrow">Personal Blog</p>
+      <h1>myblog</h1>
+      <p class="signature">写代码，写观察，留下慢一点的记录。</p>
+    </div>
+  </div>
+
+  <nav aria-label="Primary">
+    <ul class="nav-list">
+      {navItems.map((item) => {
+        const active =
+          item.route === "/"
+            ? currentPath === "/"
+            : item.route !== null && currentPath.startsWith(item.route);
+
+        return (
+          <li>
+            <a class:list={["nav-link", { active }]} href={item.href}>
+              {item.label}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </nav>
+</aside>
+
+<style>
+  .sidebar {
+    display: grid;
+    gap: 2rem;
+    align-content: start;
+  }
+
+  .identity {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .avatar {
+    width: 4.5rem;
+    aspect-ratio: 1;
+    border-radius: 1.25rem;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #f8fafc;
+    background: linear-gradient(135deg, #f97316, #ea580c 52%, #7c2d12);
+    box-shadow: 0 18px 30px rgba(234, 88, 12, 0.26);
+  }
+
+  .eyebrow {
+    margin: 0 0 0.5rem;
+    color: #9a3412;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 1.7rem;
+  }
+
+  .signature {
+    margin: 0.75rem 0 0;
+    color: #57534e;
+    font-size: 0.96rem;
+  }
+
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.9rem 1rem;
+    border-radius: 999px;
+    color: #292524;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.56);
+    border: 1px solid rgba(234, 88, 12, 0.12);
+    transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    transform: translateX(6px);
+    background: #ea580c;
+    color: #fff7ed;
+  }
+</style>
