@@ -91,8 +91,10 @@ const paddedIndex = computed(() =>
     v-else
     class="card-row group flex items-baseline gap-4 border-b border-outline py-3.5"
   >
-    <!-- Swiss-style index number -->
-    <span v-if="paddedIndex" class="hidden shrink-0 index-number sm:inline">
+    <span
+      v-if="paddedIndex"
+      class="hidden shrink-0 index-number index-number-zone sm:inline"
+    >
       {{ paddedIndex }}
     </span>
 

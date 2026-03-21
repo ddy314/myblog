@@ -21,15 +21,11 @@ const recentPosts = computed(() => {
     .filter((post) => resolvePostPath(post) !== featuredPath)
     .slice(0, 6);
 });
-
-function padIndex(n: number) {
-  return String(n).padStart(2, "0");
-}
 </script>
 
 <template>
   <section class="mx-auto w-full max-w-layout">
-    <!-- Hero — oversized brand mark as visual anchor -->
+    <!-- Hero — the "terminal station" -->
     <header class="enter border-b border-outline pb-12">
       <div class="grid items-end gap-6 lg:grid-cols-[auto_minmax(0,1fr)]">
         <h1
@@ -48,48 +44,59 @@ function padIndex(n: number) {
       </div>
     </header>
 
-    <!-- Featured -->
-    <section v-if="featuredPost" class="enter enter-d2 mt-10">
-      <div class="flex items-baseline gap-3">
-        <span class="index-number">01</span>
-        <span class="eyebrow-label">精选</span>
-      </div>
-      <PostsCard :post="featuredPost" variant="feature" class="mt-3" />
-    </section>
-
-    <!-- Recent -->
-    <section class="enter enter-d3 mt-14">
-      <div class="flex items-baseline justify-between border-b border-outline pb-3">
-        <div class="flex items-baseline gap-3">
-          <span class="index-number">02</span>
-          <span class="eyebrow-label">最近发布</span>
+    <!-- Connected sections — the "line" -->
+    <div class="connector-line mt-10">
+      <!-- Featured station -->
+      <section v-if="featuredPost" class="enter enter-d2">
+        <div class="station-node">
+          <div class="signage-header">
+            <span class="signage-indicator" aria-hidden="true" />
+            <span class="signage-code">H—01</span>
+            <span class="signage-label">精选</span>
+          </div>
         </div>
-        <NuxtLink to="/posts" class="action-link">
+
+        <div class="ml-0 mt-3">
+          <PostsCard :post="featuredPost" variant="feature" />
+        </div>
+      </section>
+
+      <!-- Recent station -->
+      <section class="enter enter-d3 mt-12">
+        <div class="station-node">
+          <div class="signage-header">
+            <span class="signage-indicator" aria-hidden="true" />
+            <span class="signage-code">H—02</span>
+            <span class="signage-label">最近发布</span>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <div v-if="recentPosts.length">
+            <PostsCard
+              v-for="(post, i) in recentPosts"
+              :key="resolvePostPath(post)"
+              :post="post"
+              :index="i + 1"
+              variant="list"
+              class="enter"
+              :class="`enter-d${Math.min(i + 4, 6)}`"
+            />
+          </div>
+
+          <p v-else class="py-8 text-sm text-ink-subtle">
+            暂无更多文章。
+          </p>
+        </div>
+      </section>
+
+      <!-- Guide arrow to archive -->
+      <div class="enter enter-d6 mt-10 station-node">
+        <NuxtLink to="/posts" class="guide-arrow">
+          <span class="guide-arrow-icon" aria-hidden="true">&rarr;</span>
           全部文章
-          <svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M6.5 3.5L11 8L6.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
         </NuxtLink>
       </div>
-
-      <div v-if="recentPosts.length">
-        <PostsCard
-          v-for="(post, i) in recentPosts"
-          :key="resolvePostPath(post)"
-          :post="post"
-          :index="i + 1"
-          variant="list"
-          class="enter"
-          :class="`enter-d${Math.min(i + 4, 6)}`"
-        />
-      </div>
-
-      <p
-        v-else
-        class="py-8 text-sm text-ink-subtle"
-      >
-        暂无更多文章。
-      </p>
-    </section>
+    </div>
   </section>
 </template>

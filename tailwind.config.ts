@@ -14,6 +14,9 @@ export default {
         "outline-strong": "#c0c0c0",
         accent: "#c53030",
         "accent-soft": "#fef2f2",
+        "zone-home": "#c53030",
+        "zone-posts": "#2b4c7e",
+        "zone-about": "#4a4a4a",
       },
       fontFamily: {
         sans: [

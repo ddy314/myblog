@@ -15,6 +15,8 @@ const emit = defineEmits<{
   "update:selectedTag": [value: string];
   "update:sortBy": [value: PostSort];
 }>();
+
+const { zone } = useRouteZone();
 </script>
 
 <template>
@@ -23,6 +25,11 @@ const emit = defineEmits<{
     aria-label="文章列表"
   >
     <aside class="enter lg:sticky lg:top-24 lg:self-start">
+      <div
+        class="mb-4 h-[3px] w-12 rounded-sm"
+        :style="{ background: zone.color }"
+        aria-hidden="true"
+      />
       <PostsFilterBar
         :tags="tags"
         :selected-tag="selectedTag"
@@ -34,9 +41,12 @@ const emit = defineEmits<{
 
     <div>
       <div class="enter enter-d1 flex items-center justify-between gap-4 border-b border-outline pb-4">
-        <h1 class="text-xl font-semibold tracking-tight text-ink">
-          全部文章
-        </h1>
+        <div class="flex items-center gap-3">
+          <span class="station-code">{{ zone.code }}</span>
+          <h1 class="text-xl font-semibold tracking-tight text-ink">
+            全部文章
+          </h1>
+        </div>
         <div class="w-full max-w-[16rem]">
           <PostsSearchField
             :model-value="searchQuery"

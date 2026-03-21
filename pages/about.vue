@@ -1,10 +1,14 @@
+<script setup lang="ts">
+import { formatStationCode } from "~/composables/useRouteZone";
+
+const { zone } = useRouteZone();
+</script>
+
 <template>
   <article class="mx-auto w-full max-w-reading">
-    <!-- Author header with geometric frame -->
     <header class="enter flex items-start gap-6 border-b border-outline pb-8">
       <div class="relative shrink-0">
-        <!-- Geometric frame — offset border creates depth -->
-        <div class="absolute -right-1 -top-1 h-16 w-16 rounded-lg border border-accent/20" aria-hidden="true" />
+        <div class="absolute -right-1 -top-1 h-16 w-16 rounded-lg border" style="border-color: var(--zone-color, #4a4a4a); opacity: 0.2;" aria-hidden="true" />
         <img
           src="/images/avatar.svg"
           alt="夏"
@@ -12,6 +16,9 @@
         />
       </div>
       <div>
+        <div class="mb-2 flex items-center gap-3">
+          <span class="station-code">{{ zone.code }}</span>
+        </div>
         <h1 class="text-2xl font-semibold tracking-tight text-ink">夏</h1>
         <p class="mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">
           前端工程师，关注交互设计、信息架构与中文排版。这个博客记录产品观察、技术笔记和读书摘要，偶尔写一些不那么有用的东西。
@@ -19,22 +26,28 @@
       </div>
     </header>
 
-    <!-- Content sections -->
-    <section class="mt-8 space-y-6">
-      <div class="enter enter-d1 border-b border-outline pb-6">
-        <div class="flex items-baseline gap-3">
-          <span class="index-number">01</span>
-          <h2 class="text-base font-medium text-ink">写些什么</h2>
+    <!-- Connected sections -->
+    <div class="connector-line mt-8">
+      <section class="enter enter-d1 pb-6">
+        <div class="station-node">
+          <div class="signage-header">
+            <span class="signage-indicator" aria-hidden="true" />
+            <span class="signage-code">{{ formatStationCode(zone.id, 2) }}</span>
+            <h2 class="text-base font-medium text-ink">写些什么</h2>
+          </div>
         </div>
         <p class="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">
           主要写三类内容：产品和交互设计的观察笔记，前端工程中碰到的具体问题与解法，以及读完一本书之后的整理。没有固定更新频率，写完一篇发一篇。
         </p>
-      </div>
+      </section>
 
-      <div class="enter enter-d2 border-b border-outline pb-6">
-        <div class="flex items-baseline gap-3">
-          <span class="index-number">02</span>
-          <h2 class="text-base font-medium text-ink">技术栈</h2>
+      <section class="enter enter-d2 pb-6">
+        <div class="station-node">
+          <div class="signage-header">
+            <span class="signage-indicator" aria-hidden="true" />
+            <span class="signage-code">{{ formatStationCode(zone.id, 3) }}</span>
+            <h2 class="text-base font-medium text-ink">技术栈</h2>
+          </div>
         </div>
         <p class="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">
           这个站点用 Nuxt 3 + Nuxt Content 构建，样式基于 Tailwind CSS，部署在 GitHub Pages 上。所有内容都是 Markdown 文件，没有数据库，没有 CMS。源代码公开。
@@ -45,12 +58,15 @@
           <span class="tag-label">#TypeScript</span>
           <span class="tag-label">#Markdown</span>
         </div>
-      </div>
+      </section>
 
-      <div class="enter enter-d3 pb-6">
-        <div class="flex items-baseline gap-3">
-          <span class="index-number">03</span>
-          <h2 class="text-base font-medium text-ink">联系</h2>
+      <section class="enter enter-d3 pb-6">
+        <div class="station-node">
+          <div class="signage-header">
+            <span class="signage-indicator" aria-hidden="true" />
+            <span class="signage-code">{{ formatStationCode(zone.id, 4) }}</span>
+            <h2 class="text-base font-medium text-ink">联系</h2>
+          </div>
         </div>
         <div class="mt-3 flex items-center gap-5">
           <a
@@ -65,7 +81,7 @@
             GitHub
           </a>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </article>
 </template>

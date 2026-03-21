@@ -43,6 +43,7 @@
 @layer base {
   :root {
     color-scheme: light;
+    --zone-color: #c53030;
   }
 
   html {
@@ -102,7 +103,8 @@
 
   .signal-line {
     @apply h-[2px] w-full;
-    background: linear-gradient(90deg, #c53030 0%, #c53030 40%, #e5e5e5 100%);
+    background: var(--zone-color);
+    transition: background 0.3s ease;
   }
 
   /* ── Entrance animation utility ── */
@@ -137,6 +139,11 @@
     @apply font-mono text-[0.75rem] font-normal tabular-nums text-outline-strong;
   }
 
+  .index-number-zone {
+    color: var(--zone-color);
+    opacity: 0.72;
+  }
+
   /* ── Navigation ── */
 
   .nav-link {
@@ -157,8 +164,20 @@
     @apply text-ink;
   }
 
+  .nav-link-active::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--zone-color);
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+
   .nav-link-active::after {
     transform: scaleX(1);
+    background: var(--zone-color);
   }
 
   /* ── Buttons ── */
@@ -238,7 +257,8 @@
   /* ── Reading progress bar ── */
 
   .reading-progress {
-    @apply fixed left-0 top-[2px] z-50 h-[2px] bg-accent;
+    @apply fixed left-0 top-0 z-50 h-[2px];
+    background: var(--zone-color);
     transform-origin: left;
     transition: transform 0.1s linear;
   }
@@ -283,5 +303,189 @@
   .geo-sep::after {
     content: "";
     @apply h-[1px] flex-1 bg-outline;
+  }
+
+  /* ── Wayfinding: Zone stripe ── */
+
+  .zone-stripe {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100vh;
+    background: var(--zone-color);
+    z-index: 50;
+    transition: background 0.3s ease;
+  }
+
+  @media (max-width: 767px) {
+    .zone-stripe {
+      display: none;
+    }
+  }
+
+  /* ── Wayfinding: Station code badge ── */
+
+  .station-code {
+    @apply inline-flex items-center gap-1.5 font-mono text-[0.6875rem] font-normal tracking-wide;
+    color: var(--zone-color);
+    white-space: nowrap;
+  }
+
+  .station-code::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 14px;
+    border-radius: 1px;
+    background: var(--zone-color);
+    flex-shrink: 0;
+  }
+
+  /* ── Wayfinding: Connector line (vertical metro line) ── */
+
+  .connector-line {
+    position: relative;
+    padding-left: 24px;
+  }
+
+  .connector-line::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--zone-color);
+    opacity: 0.25;
+  }
+
+  /* ── Wayfinding: Station node (dot on the connector line) ── */
+
+  .station-node {
+    position: relative;
+    padding-left: 24px;
+  }
+
+  .station-node::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.45em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--zone-color);
+  }
+
+  /* ── Wayfinding: Signage header (station-name-plate style) ── */
+
+  .signage-header {
+    @apply flex items-center gap-3;
+  }
+
+  .signage-header .signage-indicator {
+    display: inline-block;
+    width: 3px;
+    height: 1.1em;
+    border-radius: 1px;
+    background: var(--zone-color);
+    flex-shrink: 0;
+  }
+
+  .signage-header .signage-code {
+    @apply font-mono text-[0.75rem] font-normal;
+    color: var(--zone-color);
+  }
+
+  .signage-header .signage-label {
+    @apply text-[0.6875rem] font-normal uppercase tracking-[0.14em] text-ink-subtle;
+  }
+
+  /* ── Wayfinding: Platform navigation (prev/next) ── */
+
+  .platform-nav {
+    @apply grid gap-px overflow-hidden rounded-lg border border-outline bg-outline;
+  }
+
+  .platform-nav-item {
+    @apply flex min-h-[8.5rem] flex-col justify-between gap-1.5 bg-white p-5 no-underline;
+    transition: background 0.2s ease;
+  }
+
+  .platform-nav-item:hover {
+    background: #f2f2f2;
+  }
+
+  .platform-nav-item:hover .platform-nav-title {
+    color: var(--zone-color);
+  }
+
+  .platform-nav-empty {
+    @apply bg-white p-5;
+  }
+
+  .platform-nav-code {
+    @apply font-mono text-[0.6875rem] font-normal;
+    color: var(--zone-color);
+  }
+
+  .platform-nav-arrow {
+    @apply text-lg leading-none;
+    color: var(--zone-color);
+  }
+
+  /* ── Wayfinding: Guide arrow (large directional element) ── */
+
+  .guide-arrow {
+    @apply inline-flex items-center gap-3 font-mono text-sm font-normal;
+    color: var(--zone-color);
+    text-decoration: none;
+    transition: gap 0.2s ease;
+  }
+
+  .guide-arrow:hover {
+    gap: 1rem;
+  }
+
+  .guide-arrow-icon {
+    @apply text-xl leading-none;
+    color: var(--zone-color);
+  }
+
+  /* ── Wayfinding: Terminal marker (end of line) ── */
+
+  .terminal-marker {
+    @apply inline-flex items-center gap-2 font-mono text-[0.6875rem];
+    color: var(--zone-color);
+  }
+
+  .terminal-marker::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--zone-color);
+  }
+
+  .terminal-marker::after {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--zone-color);
+    opacity: 0.4;
+  }
+
+  @media (max-width: 767px) {
+    .connector-line,
+    .station-node {
+      padding-left: 18px;
+    }
+
+    .connector-line::before {
+      left: 2px;
+    }
   }
 }

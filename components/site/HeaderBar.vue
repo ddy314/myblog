@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { zone } = useRouteZone();
+
 const links = [
   { label: "首页", to: "/" },
   { label: "文章", to: "/posts" },
@@ -8,15 +10,21 @@ const links = [
 
 <template>
   <header
-    class="sticky top-[2px] z-40 border-b border-outline bg-paper/90 backdrop-blur-md"
+    class="sticky top-0 z-40 border-b border-outline bg-paper/90 backdrop-blur-md"
   >
     <div class="site-shell flex h-14 items-center justify-between">
-      <NuxtLink
-        to="/"
-        class="group text-lg font-semibold tracking-tight text-ink no-underline"
-      >
-        <span class="inline-block transition-transform duration-200 group-hover:scale-105">夏</span>
-      </NuxtLink>
+      <div class="flex items-center gap-3">
+        <NuxtLink
+          to="/"
+          class="text-lg font-semibold tracking-tight text-ink no-underline"
+        >
+          夏
+        </NuxtLink>
+        <!-- Station code badge -->
+        <span class="station-code" aria-label="当前位置">
+          {{ zone.code }}
+        </span>
+      </div>
 
       <nav class="flex items-center gap-7" aria-label="主导航">
         <NuxtLink
