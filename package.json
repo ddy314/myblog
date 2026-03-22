@@ -15,7 +15,10 @@
     "@fontsource/noto-serif-sc": "^5.2.9",
     "@nuxt/content": "latest",
     "better-sqlite3": "latest",
-    "nuxt": "latest"
+    "katex": "^0.16.40",
+    "nuxt": "latest",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.14.0",

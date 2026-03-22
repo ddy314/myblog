@@ -1,7 +1,22 @@
+import rehypeKatex from "rehype-katex";
+import remarkMath from "remark-math";
+
 export default defineNuxtConfig({
   compatibilityDate: "2026-03-19",
   modules: ["@nuxt/content", "@nuxtjs/tailwindcss"],
   css: ["~/assets/css/main.css"],
+  content: {
+    build: {
+      markdown: {
+        remarkPlugins: {
+          "remark-math": remarkMath,
+        },
+        rehypePlugins: {
+          "rehype-katex": rehypeKatex,
+        },
+      },
+    },
+  },
   tailwindcss: {
     viewer: false,
   },

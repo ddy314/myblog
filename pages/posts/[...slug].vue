@@ -43,7 +43,12 @@ const readingTime = computed(() =>
 
 const formattedDate = computed(() => formatPostDate(post.value?.date));
 
+type TocItem = { id: string; text: string; level: 2 | 3 };
+
 const copied = ref(false);
+const articleContent = ref<HTMLElement | null>(null);
+const tocItems = ref<TocItem[]>([]);
+const activeHeadingId = ref("");
 
 async function copyLink() {
   if (!import.meta.client) return;
@@ -57,18 +62,104 @@ async function copyLink() {
 // Reading progress
 const progress = ref(0);
 
-function updateProgress() {
+function slugifyHeading(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[\s\W-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function collectHeadings() {
+  if (!articleContent.value) return;
+
+  const headings = Array.from(
+    articleContent.value.querySelectorAll("h2, h3"),
+  ) as HTMLHeadingElement[];
+
+  const seenIds = new Map<string, number>();
+
+  tocItems.value = headings
+    .map((heading) => {
+      const rawText = heading.textContent?.trim() ?? "";
+      if (!rawText) return null;
+
+      const baseId = heading.id || slugifyHeading(rawText) || "section";
+      const count = seenIds.get(baseId) ?? 0;
+      const nextCount = count + 1;
+      seenIds.set(baseId, nextCount);
+
+      const resolvedId = count === 0 ? baseId : `${baseId}-${nextCount}`;
+      heading.id = resolvedId;
+
+      return {
+        id: resolvedId,
+        text: rawText,
+        level: heading.tagName === "H2" ? 2 : 3,
+      } as const;
+    })
+    .filter((item): item is TocItem => item !== null);
+
+  activeHeadingId.value = tocItems.value[0]?.id ?? "";
+}
+
+function updateReadingState() {
+  if (!import.meta.client) return;
+
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
   progress.value = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+
+  if (!tocItems.value.length) return;
+
+  const headingElements = tocItems.value
+    .map((item) => document.getElementById(item.id))
+    .filter((element): element is HTMLElement => element instanceof HTMLElement);
+
+  const currentHeading =
+    headingElements.findLast((heading) => heading.getBoundingClientRect().top <= 140) ??
+    headingElements[0];
+
+  activeHeadingId.value = currentHeading?.id ?? "";
+}
+
+function jumpToHeading(id: string) {
+  if (!import.meta.client) return;
+
+  const element = document.getElementById(id);
+  if (!element) return;
+
+  element.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
+
+function refreshReadingState() {
+  nextTick(() => {
+    collectHeadings();
+    updateReadingState();
+  });
 }
 
 onMounted(() => {
-  window.addEventListener("scroll", updateProgress, { passive: true });
+  refreshReadingState();
+
+  window.addEventListener("scroll", updateReadingState, { passive: true });
+  window.addEventListener("resize", updateReadingState, { passive: true });
 });
 
+watch(
+  () => post.value,
+  () => {
+    refreshReadingState();
+  },
+  { flush: "post" },
+);
+
 onUnmounted(() => {
-  window.removeEventListener("scroll", updateProgress);
+  window.removeEventListener("scroll", updateReadingState);
+  window.removeEventListener("resize", updateReadingState);
 });
 
 // Prev/next navigation
@@ -92,6 +183,8 @@ const nextCode = computed(() => {
   if (!nextPost.value) return "";
   return formatStationCode("P", currentIndex.value + 1);
 });
+
+const progressPercent = computed(() => `${Math.round(progress.value * 100)}%`);
 </script>
 
 <template>
@@ -132,20 +225,22 @@ const nextCode = computed(() => {
       </div>
 
       <h1
-        class="mt-4 max-w-3xl text-[2.5rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-[3rem]"
+        class="mt-4 w-full text-[2.5rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-[3rem]"
       >
         {{ post?.title }}
       </h1>
 
-      <p
+      <div
         v-if="post?.description"
-        class="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-ink-soft"
+        class="post-dek mt-10 max-w-[42rem]"
       >
-        {{ post.description }}
-      </p>
+        <p class="text-[1rem] leading-[1.95] text-ink-soft sm:text-[1.0625rem]">
+          {{ post.description }}
+        </p>
+      </div>
 
       <!-- Meta row -->
-      <div class="mt-6 flex flex-wrap items-center gap-4">
+      <div class="mt-8 flex flex-wrap items-center gap-4">
         <span class="meta-mono">{{ formattedDate }}</span>
         <span class="h-3 w-[1px] bg-outline" aria-hidden="true" />
         <span class="meta-mono">{{ readingTime }}</span>
@@ -173,9 +268,26 @@ const nextCode = computed(() => {
     </figure>
 
     <!-- Content -->
-    <div class="enter enter-d3 mx-auto mt-10 max-w-reading">
-      <div class="article-prose">
-        <ContentRenderer v-if="post" :value="post" />
+    <div class="enter enter-d3 mx-auto mt-10 max-w-layout">
+      <div class="grid gap-10 xl:grid-cols-[13.5rem_minmax(0,44rem)] xl:items-start xl:gap-12">
+        <aside class="order-1 xl:sticky xl:top-[6.5rem]">
+          <PostsReadingBookmark
+            :progress="progress"
+            :progress-percent="progressPercent"
+            :items="tocItems"
+            :active-id="activeHeadingId"
+            @jump="jumpToHeading"
+          />
+        </aside>
+
+        <div
+          ref="articleContent"
+          class="order-2 mx-auto w-full max-w-reading xl:max-w-none"
+        >
+          <div class="article-prose">
+            <ContentRenderer v-if="post" :value="post" />
+          </div>
+        </div>
       </div>
     </div>
 
