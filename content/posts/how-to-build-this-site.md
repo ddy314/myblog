@@ -6,7 +6,7 @@ tags:
     - 技术
     - 博客搭建
     - 设计
-cover: /images-local/post-how-to-build/0defcaebed814a3437fb00ccb9eb4f60.jpg
+cover: /images/auto/post-how-to-build/0defcaebed814a3437fb00ccb9eb4f60.webp
 coverAlt: 一张意义不明的封面
 featured: true
 ---
@@ -27,7 +27,7 @@ featured: true
 - 直观简洁的界面布局
 - 适当的留白和层次感，避免过于拥挤
 
-![一个典型的Anthropic页面](/images-local/post-how-to-build/屏幕截图_20260326_230128.png)
+![一个典型的Anthropic页面](/images/auto/post-how-to-build/屏幕截图_20260326_230128.webp)
 
 很遗憾，在烧了几百万Token（现在它的翻译好像叫词元，令人难绷的翻译）之后，我清晰的意识到了大模型的边界所在。问题在于，这个需求所对应的，是一个十分具象又十分抽象的设计任务。具象在于这个任务本身是清晰的，就是单纯的模仿一种网页的设计风格；抽象在于这个任务的实现细节是完全不清晰的，它依赖大量的精细的设计细节：
 - 你怎么定义“土黄色”？是直接照搬Anthropic博客的颜色值，还是重新调整一个新的更合适的值？事实上，这种背景色彩的选择是非常微妙的，你调整的不好，整个页面就会看起来特别的廉价，塑料感很重，最后呈现出的效果还远远不如单纯放一个纯白色上去，也就是说，单纯只是套用Anthropic的设计，会有一种东施效颦的感觉，而你自己调整的话，那就又是一项大的工程了。

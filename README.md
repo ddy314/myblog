@@ -123,13 +123,13 @@ public/images-local/
 在文章里直接写这个本地地址：
 
 ```md
-![示意图](/images-local/posts/my-post/hero.jpg)
+![示意图](/images/auto/posts/my-post/hero.webp)
 ```
 
 提交时会触发 `pre-commit` hook，自动完成这几件事：
 
 - 扫描暂存区里的 Markdown、Vue 和常见文本文件
-- 找出其中的 `/images-local/...` 链接
+- 找出其中的 `/images/auto/...` 链接
 - 用 `sharp` 压缩图片并输出到受 Git 跟踪的目录 `public/images/auto/`
 - 把文档里的链接改写成 `/images/auto/...`
 - 自动把改写后的文档和新图片重新加入暂存区
@@ -137,7 +137,7 @@ public/images-local/
 例如：
 
 ```md
-![示意图](/images-local/posts/my-post/hero.jpg)
+![示意图](/images/auto/posts/my-post/hero.webp)
 ```
 
 会在提交前改成：
