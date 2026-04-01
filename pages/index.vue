@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PostItem } from "~/utils/posts";
 import { resolvePostPath, sortPosts } from "~/utils/posts";
+import { joinSiteUrl, normalizeMetaDescription } from "~/utils/seo";
 
 const { data: homePosts } = await useAsyncData("home-posts", async () => {
   const result = await queryCollection("posts").all();
@@ -8,6 +9,8 @@ const { data: homePosts } = await useAsyncData("home-posts", async () => {
 });
 
 const assetPath = useAssetPath();
+const route = useRoute();
+const config = useRuntimeConfig();
 
 const posts = computed(() => homePosts.value ?? []);
 
@@ -22,6 +25,41 @@ const recentPosts = computed(() => {
   return posts.value
     .filter((post) => resolvePostPath(post) !== featuredPath)
     .slice(0, 6);
+});
+
+const description = normalizeMetaDescription(
+  featuredPost.value?.description,
+  config.public.siteDescription,
+);
+const canonicalUrl = joinSiteUrl(config.public.siteUrl, route.path, config.app.baseURL);
+const socialImage = joinSiteUrl(
+  config.public.siteUrl,
+  featuredPost.value?.cover || "/images/profile/avatar.jpg",
+  config.app.baseURL,
+);
+
+useHead({
+  link: canonicalUrl
+    ? [
+        {
+          rel: "canonical",
+          href: canonicalUrl,
+        },
+      ]
+    : [],
+});
+
+useSeoMeta({
+  title: "首页",
+  description,
+  ogTitle: config.public.siteName,
+  ogDescription: description,
+  ogType: "website",
+  ogUrl: canonicalUrl || undefined,
+  ogImage: socialImage || undefined,
+  twitterTitle: config.public.siteName,
+  twitterDescription: description,
+  twitterImage: socialImage || undefined,
 });
 </script>
 

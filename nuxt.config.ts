@@ -5,6 +5,14 @@ export default defineNuxtConfig({
   compatibilityDate: "2026-03-19",
   modules: ["@nuxt/content", "@nuxtjs/tailwindcss"],
   css: ["~/assets/css/main.css"],
+  runtimeConfig: {
+    public: {
+      siteName: "夏的个人博客",
+      siteDescription:
+        "一个关于技术、笔记与随想的个人博客，基于 Nuxt Content 构建。",
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "",
+    },
+  },
   content: {
     build: {
       markdown: {
@@ -32,5 +40,8 @@ export default defineNuxtConfig({
   },
   nitro: {
     preset: "static",
+    prerender: {
+      routes: ["/robots.txt", "/sitemap.xml"],
+    },
   },
 });

@@ -1,4 +1,16 @@
 {
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.associations": {
+    "*.md": "markdown",
+    "*.mdx": "mdx"
+  },
+  "markdown.math.enabled": true,
+  "markdownlint.config": {
+    "MD012": false,
+    "MD022": false,
+    "MD029": false,
+    "MD032": false,
+    "MD033": false
+  }
 }

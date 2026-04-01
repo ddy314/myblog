@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import type { PostItem, PostSort } from "~/utils/posts";
 import { sortPosts } from "~/utils/posts";
+import { joinSiteUrl } from "~/utils/seo";
 
 const { data: postsData } = await useAsyncData("posts-list", async () => {
   const result = await queryCollection("posts").all();
   return (result ?? []) as PostItem[];
 });
+
+const route = useRoute();
+const config = useRuntimeConfig();
 
 const searchQuery = ref("");
 const selectedTag = ref("all");
@@ -51,6 +55,35 @@ const filteredAndSortedPosts = computed(() => {
     return searchPool.includes(normalizedSearch.value);
   });
   return sortPosts(filtered, sortBy.value);
+});
+
+const canonicalUrl = joinSiteUrl(
+  config.public.siteUrl,
+  route.path,
+  config.app.baseURL,
+);
+const description = "按时间整理的全部文章列表，包含技术、课程笔记和随想。";
+
+useHead({
+  link: canonicalUrl
+    ? [
+        {
+          rel: "canonical",
+          href: canonicalUrl,
+        },
+      ]
+    : [],
+});
+
+useSeoMeta({
+  title: "全部文章",
+  description,
+  ogTitle: `全部文章 | ${config.public.siteName}`,
+  ogDescription: description,
+  ogType: "website",
+  ogUrl: canonicalUrl || undefined,
+  twitterTitle: `全部文章 | ${config.public.siteName}`,
+  twitterDescription: description,
 });
 </script>
 

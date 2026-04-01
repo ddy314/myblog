@@ -1,8 +1,43 @@
 <script setup lang="ts">
 import { formatStationCode } from "~/composables/useRouteZone";
+import { joinSiteUrl } from "~/utils/seo";
 
 const { zone } = useRouteZone();
 const assetPath = useAssetPath();
+const route = useRoute();
+const config = useRuntimeConfig();
+
+const canonicalUrl = joinSiteUrl(config.public.siteUrl, route.path, config.app.baseURL);
+const description = "关于作者、写作方向和这个博客的基本信息。";
+const socialImage = joinSiteUrl(
+  config.public.siteUrl,
+  "/images/profile/avatar.jpg",
+  config.app.baseURL,
+);
+
+useHead({
+  link: canonicalUrl
+    ? [
+        {
+          rel: "canonical",
+          href: canonicalUrl,
+        },
+      ]
+    : [],
+});
+
+useSeoMeta({
+  title: "关于",
+  description,
+  ogTitle: `关于 | ${config.public.siteName}`,
+  ogDescription: description,
+  ogType: "profile",
+  ogUrl: canonicalUrl || undefined,
+  ogImage: socialImage || undefined,
+  twitterTitle: `关于 | ${config.public.siteName}`,
+  twitterDescription: description,
+  twitterImage: socialImage || undefined,
+});
 </script>
 
 <template>

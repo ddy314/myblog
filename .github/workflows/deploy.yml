@@ -37,8 +37,10 @@ jobs:
           OWNER_NAME="${{ github.repository_owner }}"
           if [ "$REPO_NAME" = "$OWNER_NAME.github.io" ]; then
             echo "NUXT_APP_BASE_URL=/" >> "$GITHUB_ENV"
+            echo "NUXT_PUBLIC_SITE_URL=https://$OWNER_NAME.github.io/" >> "$GITHUB_ENV"
           else
             echo "NUXT_APP_BASE_URL=/$REPO_NAME/" >> "$GITHUB_ENV"
+            echo "NUXT_PUBLIC_SITE_URL=https://$OWNER_NAME.github.io/$REPO_NAME/" >> "$GITHUB_ENV"
           fi
 
       - name: Install dependencies

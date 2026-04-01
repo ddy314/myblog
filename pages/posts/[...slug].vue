@@ -7,9 +7,11 @@ import {
   resolvePostPath,
   sortPosts,
 } from "~/utils/posts";
+import { joinSiteUrl, normalizeMetaDescription } from "~/utils/seo";
 
 const route = useRoute();
 const assetPath = useAssetPath();
+const config = useRuntimeConfig();
 
 const { data: post } = await useAsyncData(route.path, () =>
   queryCollection("posts").path(route.path).first(),
@@ -191,6 +193,48 @@ const nextCode = computed(() => {
 });
 
 const progressPercent = computed(() => `${Math.round(progress.value * 100)}%`);
+
+const description = computed(() =>
+  normalizeMetaDescription(post.value?.description, config.public.siteDescription),
+);
+
+const canonicalUrl = computed(() =>
+  joinSiteUrl(config.public.siteUrl, route.path, config.app.baseURL),
+);
+
+const socialImage = computed(() =>
+  joinSiteUrl(
+    config.public.siteUrl,
+    post.value?.cover || "/images/profile/avatar.jpg",
+    config.app.baseURL,
+  ),
+);
+
+useHead(() => ({
+  link: canonicalUrl.value
+    ? [
+        {
+          rel: "canonical",
+          href: canonicalUrl.value,
+        },
+      ]
+    : [],
+}));
+
+useSeoMeta(() => ({
+  title: post.value?.title,
+  description: description.value,
+  articlePublishedTime: post.value?.date,
+  articleTag: post.value?.tags,
+  ogTitle: post.value?.title,
+  ogDescription: description.value,
+  ogType: "article",
+  ogUrl: canonicalUrl.value || undefined,
+  ogImage: socialImage.value || undefined,
+  twitterTitle: post.value?.title,
+  twitterDescription: description.value,
+  twitterImage: socialImage.value || undefined,
+}));
 </script>
 
 <template>
